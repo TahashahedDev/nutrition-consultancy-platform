@@ -1,0 +1,157 @@
+
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "type": "object",
+      "description": "Represents a registered user's profile.",
+      "properties": {
+        "displayName": { "type": "string", "description": "The user's full name." },
+        "email": { "type": "string", "format": "email" },
+        "phoneNumber": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "emailVerified": { "type": "boolean" },
+        "isAdmin": { "type": "boolean" },
+        "isSubscribed": { "type": "boolean", "description": "Whether the user has an active subscription." },
+        "planId": { "type": "string", "description": "ID of the purchased nutrition plan." },
+        "subscriptionStartDate": { "type": "string", "format": "date-time", "description": "Date when the current subscription started." },
+        "subscriptionEndDate": { "type": "string", "format": "date-time", "description": "Date when the current subscription expires." },
+        "isPaused": { "type": "boolean", "description": "Whether the user's subscription is paused." },
+        "pausedAt": { "type": "string", "format": "date-time", "description": "Timestamp when the subscription was paused." },
+        "isPaymentPending": { "type": "boolean", "description": "True if the user has submitted a payment that is awaiting verification." }
+      },
+      "required": ["createdAt", "isSubscribed"]
+    },
+    "Meal": {
+        "title": "Meal",
+        "type": "object",
+        "description": "A single meal within a day's diet plan.",
+        "properties": {
+            "id": { "type": "string" },
+            "time": { "type": "string", "format": "time", "description": "The suggested time for the meal (e.g., '09:00')." },
+            "description": { "type": "string", "description": "The recipe, instructions, or details of the meal." },
+            "photoSubmitted": { "type": "boolean", "description": "True if the client has confirmed they sent the photo on WhatsApp." }
+        },
+        "required": ["id", "time", "description"]
+    },
+    "DayPlan": {
+        "title": "DayPlan",
+        "type": "object",
+        "description": "A collection of meals for a single day.",
+        "properties": {
+            "id": { "type": "string" },
+            "day": { "type": "number", "description": "The day number in the plan (e.g., 1, 2, 3...)." },
+            "meals": {
+                "type": "array",
+                "items": { "$ref": "#/backend/entities/Meal" }
+            }
+        },
+        "required": ["id", "day", "meals"]
+    },
+    "DietPlan": {
+      "title": "DietPlan",
+      "type": "object",
+      "description": "Represents a multi-day diet plan created by the admin for a client.",
+      "properties": {
+        "id": { "type": "string" },
+        "clientId": { "type": "string" },
+        "title": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "startDate": { "type": "string", "format": "date-time", "description": "The calendar date the plan begins." },
+        "days": {
+            "type": "array",
+            "items": { "$ref": "#/backend/entities/DayPlan" }
+        }
+      },
+      "required": ["clientId", "createdAt", "startDate", "days"]
+    },
+    "NutritionPlan": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "NutritionPlan",
+      "type": "object",
+      "description": "Represents a nutrition plan offered by the consultant.",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier for the nutrition plan." },
+        "title": { "type": "string", "description": "The title of the plan (e.g., 3-Month Transformation)." },
+        "price": { "type": "string", "description": "The price of the nutrition plan as a display string (e.g., 6000 INR)." },
+        "description": { "type": "string", "description": "Detailed description of the nutrition plan's features and benefits." },
+        "durationMonths": { "type": "number", "description": "The duration of the plan in months." },
+        "features": { "type": "array", "items": { "type": "string" }, "description": "A list of key features included in the plan." },
+        "isPopular": { "type": "boolean", "description": "Marks the plan as a popular choice." },
+        "recommendation": { "type": "string", "description": "Recommendation text to persuade clients to purchase this specific plan." },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [ "title", "price", "description", "features", "durationMonths" ]
+    },
+    "ClientData": {
+        "title": "ClientData",
+        "type": "object",
+        "description": "A data entry for a client's progress, like weight or measurements. Multiple entries for different types can exist for the same date.",
+        "properties": {
+          "id": { "type": "string" },
+          "value": { "type": "number" },
+          "date": { "type": "string", "format": "date-time" },
+          "type": { "type": "string", "enum": ["weight", "waist", "chest", "hip", "thighs"]}
+        },
+        "required": ["value", "date", "type"]
+    },
+    "AdminNote": {
+        "title": "AdminNote",
+        "type": "object",
+        "description": "Private notes made by the admin about a client.",
+        "properties": {
+            "id": { "type": "string" },
+            "clientId": { "type": "string" },
+            "followUpNote": { "type": "string" },
+            "counsellingNote": { "type": "string" },
+            "createdAt": { "type": "string", "format": "date-time" }
+        },
+        "required": ["clientId", "createdAt"]
+    },
+    "Coupon": {
+      "title": "Coupon",
+      "type": "object",
+      "description": "Represents a discount coupon.",
+      "properties": {
+        "id": { "type": "string" },
+        "code": { "type": "string", "description": "The coupon code string (e.g., 'DIWALI20')." },
+        "discountAmount": { "type": "number", "description": "The flat discount amount." },
+        "isActive": { "type": "boolean", "description": "Whether the coupon is currently active." },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["code", "discountAmount", "isActive", "createdAt"]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/backend/entities/UserProfile" },
+      "description": "Stores user profile information."
+    },
+    "/nutritionPlans/{planId}": {
+      "schema": { "$ref": "#/backend/entities/NutritionPlan" },
+      "description": "Stores the available nutrition plans."
+    },
+    "/users/{userId}/dietPlans/{planId}": {
+      "schema": { "$ref": "#/backend/entities/DietPlan" },
+      "description": "Stores diet plans for a specific client."
+    },
+    "/users/{userId}/progressData/{dataId}": {
+        "schema": { "$ref": "#/backend/entities/ClientData" },
+        "description": "Stores progress data entries for a specific client."
+    },
+    "/adminNotes/{noteId}": {
+        "schema": { "$ref": "#/backend/entities/AdminNote" },
+        "description": "Stores private admin notes for all clients."
+    },
+    "/coupons/{couponId}": {
+      "schema": { "$ref": "#/backend/entities/Coupon" },
+      "description": "Stores discount coupons."
+    }
+  }
+}

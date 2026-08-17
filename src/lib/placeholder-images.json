@@ -1,0 +1,10 @@
+{
+  "placeholderImages": [
+    {
+      "id": "upi-qr-code",
+      "description": "The QR code for UPI payments to Sara Shahed.",
+      "imageUrl": "https://storage.googleapis.com/aai-web-samples/qr-code.png",
+      "imageHint": "QR code"
+    }
+  ]
+}

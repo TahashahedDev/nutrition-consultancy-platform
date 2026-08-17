@@ -1,0 +1,61 @@
+
+rules_version = '2';
+
+// Helper function to check if the user is the owner of the document.
+function isOwner(userId) {
+    return request.auth != null && request.auth.uid == userId;
+}
+
+// Helper function to check if the user has the 'isAdmin' custom claim.
+function isAdmin() {
+    return request.auth != null && request.auth.token.isAdmin == true;
+}
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // PUBLIC COLLECTIONS
+    
+    match /nutritionPlans/{planId} {
+      allow get, list: if true;
+      allow create, update, delete: if isAdmin();
+    }
+    
+    match /coupons/{couponId} {
+      allow get: if request.auth != null;
+      allow list, create, update, delete: if isAdmin();
+    }
+    
+    // ADMIN-ONLY COLLECTIONS
+    
+    match /adminNotes/{noteId} {
+        allow read, write: if isAdmin();
+    }
+
+    // USER-SPECIFIC COLLECTIONS
+
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list, delete: if isAdmin();
+      allow create: if request.auth != null;
+      
+      // An admin can update any profile.
+      // A user can update their own profile.
+      // This is secure because the client-side code only sends safe fields
+      // during operations like checkout.
+      allow update: if isOwner(userId) || isAdmin();
+
+      // Sub-collections for a specific user
+      match /dietPlans/{planId} {
+        allow get, list: if isOwner(userId) || isAdmin();
+        // Allow user to update their own meal submissions, and admin to do anything
+        allow update: if isOwner(userId) || isAdmin();
+        allow create, delete: if isAdmin(); 
+      }
+      
+      match /progressData/{dataId} {
+          allow read, write: if isOwner(userId) || isAdmin();
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+Copyright © 2026 Sara Shahed. All rights reserved.
+
+This repository and its contents (the "Software") are the proprietary
+property of Sara Shahed. The Software is made available in this
+repository for portfolio review, technical evaluation, and educational
+reference purposes only.
+
+No permission is granted to:
+
+  - copy, reproduce, or redistribute the Software, in whole or in part;
+  - modify or create derivative works based on the Software;
+  - sublicense, sell, rent, lease, or otherwise commercially exploit
+    the Software;
+  - deploy or use the Software, in whole or in part, in any product
+    or service.
+
+Any use beyond viewing the source code requires prior written
+permission from the copyright holder. To request permission, contact:
+
+  Sara Shahed <sarashabbirshahed@gmail.com>
+
+Public visibility of this repository does not constitute a grant of
+license or waiver of any rights under copyright law.
+
+------------------------------------------------------------------------
+Third-Party Components
+------------------------------------------------------------------------
+
+This project is built on open-source and third-party software,
+including (but not limited to) Next.js, React, TypeScript, Tailwind
+CSS, Radix UI, and the Firebase SDKs, along with other packages listed
+in package.json. Each of these components remains the property of its
+respective authors and is governed by its own license, as published by
+that project. Nothing in this LICENSE file grants any rights to, or
+claims ownership of, third-party software.

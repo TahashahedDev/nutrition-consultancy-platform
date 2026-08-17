@@ -1,0 +1,47 @@
+diff --git a/node_modules/next-themes/dist/index.js b/node_modules/next-themes/dist/index.js
+index 9b78913..50a094a 100644
+--- a/node_modules/next-themes/dist/index.js
++++ b/node_modules/next-themes/dist/index.js
+@@ -1,6 +1,6 @@
+ 'use client';
+ 
+-var React = require('react');
++var React = require('react19');
+ 
+ function _interopDefault (e) { return e && e.__esModule ? e : { 'default': e }; }
+ 
+diff --git a/node_modules/next-themes/dist/types/index.d.ts b/node_modules/next-themes/dist/types/index.d.ts
+index b757e23..28e75a6 100644
+--- a/node_modules/next-themes/dist/types/index.d.ts
++++ b/node_modules/next-themes/dist/types/index.d.ts
+@@ -1,4 +1,4 @@
+-import type { ReactNode, Dispatch, SetStateAction } from 'react';
++import type { ReactNode, Dispatch, SetStateAction } from 'react19';
+ export declare const useTheme: () => UseThemeProps | undefined;
+ export type UseThemeProps = {
+     /** Current theme name */
+diff --git a/node_modules/next-themes/package.json b/node_modules/next-themes/package.json
+index 35b3174..a73ad2c 100644
+--- a/node_modules/next-themes/package.json
++++ b/node_modules/next-themes/package.json
+@@ -40,7 +40,7 @@
+   },
+   "peerDependencies": {
+     "react": "^16.8 || ^17 || ^18",
+-    "react-dom": "^16.8 || ^17 || ^18"
++    "react-dom": "^16.8 || ^17 || ^18 || ^19"
+   },
+   "peerDependenciesMeta": {
+     "react-dom": {
+diff --git a/node_modules/next-themes/dist/index.mjs b/node_modules/next-themes/dist/index.mjs
+index 5ddb564..a7a130f 100644
+--- a/node_modules/next-themes/dist/index.mjs
++++ b/node_modules/next-themes/dist/index.mjs
+@@ -1,4 +1,4 @@
+ 'use client';
+ 
+-import React, {-    useState,-    useEffect,-    useContext,-    useCallback,-    useMemo-} from 'react';
++import React, { useState, useEffect, useContext, useCallback, useMemo } from 'react19';
+ 
+ const colorSchemes = ['light', 'dark'];
+ const MEDIA = '(prefers-color-scheme: dark)';

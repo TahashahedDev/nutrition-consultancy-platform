@@ -1,0 +1,12 @@
+diff --git a/node_modules/next-themes/package.json b/node_modules/next-themes/package.json
+index 51c8a32..86a9c36 100644
+--- a/node_modules/next-themes/package.json
++++ b/node_modules/next-themes/package.json
+@@ -37,6 +37,6 @@
+   "peerDependencies": {
+     "next": ">=9",
+-    "react": "^16.8 || ^17 || ^18"
++    "react": "^16.8 || ^17 || ^18 || ^19"
+   },
+   "dependencies": {}
+ }
